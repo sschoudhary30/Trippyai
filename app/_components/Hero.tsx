@@ -7,7 +7,7 @@ import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
 import { SignIn, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
-const suggestion = [
+export const suggestion = [
   {
     title: "Create New Trip",
     icon: <Globe2 className="text-blue-400 h-5 w-5 " />,
@@ -36,6 +36,7 @@ function Hero() {
       router.push("/sign-in");
       return;
     }
+    router.push("/create-new-trip");
   };
   return (
     <div className="mt-24 flex w-full justify-center">

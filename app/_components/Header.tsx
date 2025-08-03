@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const menuOption = [
   {
@@ -23,8 +23,26 @@ const menuOption = [
 function Header() {
   const { user } = useUser();
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex justify-between px-4 py-3 shadow-sm">
+    <div
+      className={`
+        fixed  z-50 flex justify-between items-center px-4 py-3
+        transition-all duration-300
+        ${scrolled ? "bg-black/10 shadow-md backdrop-blur-lg top-3 rounded-3xl left-50 w-[80vw] border-neutral-200 border-2" : "bg-white shadow-sm top-0 rounded-none left-0 w-full"}
+      `}
+    >
       <div className="flex gap-2 items-center">
         <Image src={"/logo.svg"} alt="logo" width={30} height={30} />
         <h2 className="font-bold text-2xl">Trippyai</h2>
@@ -66,7 +84,7 @@ function Header() {
             height={35}
             className="rounded-full z-10"
           />
-          <Link href={"/create-trip"}>
+          <Link href={"/create-new-trip"}>
             <Button>Create new trip</Button>
           </Link>
         </div>
